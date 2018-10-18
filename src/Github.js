@@ -1,5 +1,6 @@
 
 const fetch = require('node-fetch');
+const utils = require('./utils');
 
 class ResponseError extends Error {
   constructor(res, body) {
@@ -36,13 +37,13 @@ class Github {
           if (!res.ok) {
             throw new ResponseError(res, data);
           }
-
+          utils.setLastPage(res);
           return data;
         }));
   }
 
-  commit(username, repo) {
-    return this.request(`/repos/${username}/${repo}/commits`);
+  commit(username, repo, numPage = 1) {
+    return this.request(`/repos/${username}/${repo}/commits?page=${numPage}&per_page=100`);
   }
 }
 

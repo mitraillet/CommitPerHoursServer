@@ -37,8 +37,12 @@ class Github {
           if (!res.ok) {
             throw new ResponseError(res, data);
           }
-          utils.setLastPage(res);
-          return data;
+          let next;
+          if (data.length === 100) {
+            next = utils.getNextPage(res);
+          }
+          const dataObj = { date: data, nextPage: next };
+          return dataObj;
         }));
   }
 

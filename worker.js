@@ -14,8 +14,8 @@ function setNumNextPage(num) {
   numNextPage = num;
 }
 
-// TODO Finish this
-function worker(username, repos, numPage) {
+// TODO Ask to Miguel or Paul
+function worker(username, repos, numPage = 1) {
   client.commit(username, repos, numPage)
     .then(({ date, nextPage }) => {
       setNumNextPage(nextPage);
@@ -25,5 +25,11 @@ function worker(username, repos, numPage) {
 }
 
 function throttleToDo(username, repos) {
-  _.throttle(worker(username, repos, numNextPage), 12);
+  while (numNextPage) _.throttle(worker(username, repos, numNextPage), 12);
+  return true;
 }
+
+module.exports = {
+  worker,
+  throttleToDo,
+};

@@ -1,3 +1,4 @@
+// npm install parse-link-header
 const parse = require('parse-link-header');
 
 // function take commit and return date and hours

@@ -1,7 +1,7 @@
 
 require('dotenv/config');
 // npm i lodash.throttle
-// const _ = require('lodash.throttle');
+const _ = require('lodash.throttle');
 
 const MongoDb = require('./src/MongoDb');
 const Github = require('./src/Github');
@@ -16,7 +16,7 @@ function setNumNextPage(num) {
   numNextPage = num;
 }
 
-function worker(username, repos, numPage = 1) {
+function fillDatabase(username, repos, numPage = 1) {
   clientGit.commit(username, repos, numPage)
     .then(({ date, nextPage }) => {
       setNumNextPage(nextPage);
@@ -25,12 +25,12 @@ function worker(username, repos, numPage = 1) {
     .then(dates => clientMongoDb.MongoInsert(dates));
 }
 
-/* function throttleToDo(username, repos) {
-  while (numNextPage) _.throttle(worker(username, repos, numNextPage), 12);
-  return !numNextPage;
-} */
+function throttleToDo(username, repos) {
+  while (numNextPage) _.throttle(fillDatabase(username, repos, numNextPage), 12);
+}
 
-module.exports = {
-  worker,
-  // throttleToDo,
-};
+function worker() {
+  throttleToDo('torvalds', 'linux');
+}
+
+module.exports = worker;

@@ -26,7 +26,7 @@ function fillDatabase(username, repos, numPage = 1) {
 }
 
 function throttleToDo(username, repos) {
-  _.throttle(fillDatabase(username, repos, numNextPage), 12);
+  fillDatabase(username, repos, numNextPage);
 }
 
 function worker() {

@@ -16,8 +16,6 @@ function getReposCommitDate(commits) {
 function getNextPage(header) {
   const headerLink = header.headers.get('Link');
   const numNextPage = parse(headerLink).next.page;
-  // eslint-disable-next-line no-console
-  console.log(numNextPage);
   return numNextPage;
 }
 

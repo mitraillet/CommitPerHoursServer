@@ -27,8 +27,7 @@ function fillDatabase(username, repos, numPage = 1) {
 
 function throttleToDo(username, repos) {
   while (numNextPage) {
-    fillDatabase(username, repos, numNextPage);
-    setTimeout(12);
+    setTimeout(fillDatabase(username, repos, numNextPage), 12);
   }
 }
 

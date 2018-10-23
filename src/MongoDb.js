@@ -12,11 +12,7 @@ class MongoDb {
   MongoInsert(dateTemp) {
     MongoDbClient.connect(this.url, (err, clientDb) => {
       const db = clientDb.db('CommitPerHour');
-      db.collection('Data').insertMany(dateTemp)
-        .then((result) => {
-        // process result
-        console.log(result);
-        });
+      db.collection('Data').insertMany(dateTemp);
       assert.equal(null, err);
       clientDb.close();
     });

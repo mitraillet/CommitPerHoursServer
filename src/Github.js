@@ -37,7 +37,7 @@ class Github {
           if (!res.ok) {
             throw new ResponseError(res, data);
           }
-          let next;
+          let next = '';
           if (data.length === 100) {
             next = utils.getNextPage(res);
           }

@@ -15,7 +15,7 @@ let numNextPage = 1;
 function setNumNextPage(num) {
   numNextPage = num;
 }
-
+// FIX DB PRoblème
 function fillDatabase(username, repos, numPage = 1) {
   clientGit.commit(username, repos, numPage)
     .then(({ date, nextPage }) => {

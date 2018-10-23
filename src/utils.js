@@ -9,7 +9,7 @@ function getDate(item) {
 
 // function take all commits to map them and return dates and hours
 function getReposCommitDate(commits) {
-  const dates = commits.date.map(getDate);
+  const dates = commits.map(getDate);
   return dates;
 }
 

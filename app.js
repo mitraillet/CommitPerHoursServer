@@ -14,7 +14,7 @@ app.use(cors());
 
 app.get('/repos/:username/:repos/commits', (req, res, next) => {
   client.commit(req.params.username, req.params.repos)
-    .then(utils.getReposCommitDate)
+    .then(({ date }) => { return utils.getReposCommitDate(date); })
     .then(dates => res.send(dates))
     .catch(next);
 });

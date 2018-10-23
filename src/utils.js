@@ -3,7 +3,7 @@ const parse = require('parse-link-header');
 
 // function take commit and return date and hours
 function getDate(item) {
-  const commitDate = item.commit.author.date;
+  const commitDate = { date: item.commit.author.date };
   return commitDate;
 }
 

@@ -8,7 +8,7 @@ class MongoDb {
     this.url = url;
   }
 
-  // Use connect method to connect to the Server
+  // Function insert all the date in Db
   MongoInsertDate(dateTemp) {
     MongoDbClient.connect(this.url, (err, clientDb) => {
       const db = clientDb.db('CommitPerHour');
@@ -18,26 +18,38 @@ class MongoDb {
     });
   }
 
-  /*
-  MongoInsertRepoName(repoName) {
-    let bool = false;
+  // Function check if repoName and response is the same and if not add it to db
+  MongoInsertRepoName(repoName, response) {
     MongoDbClient.connect(this.url, (err, clientDb) => {
       const db = clientDb.db('CommitPerHour');
       const query = { repoUser: repoName };
-      let response = '';
-      db.collection('customers').find(query).toArray((error, result) => {
-        if (error) throw error;
-        response = result[0].repoUser;
-      });
       if (repoName !== response) {
+        console.error('merde');
         db.collection('RepoName').insertOne(query);
-        bool = true;
+        assert.equal(null, err);
       }
       assert.equal(null, err);
       clientDb.close();
     });
-    return bool;
-  } */
+  }
+
+  // Function check if repoName already be had or not to the DB and call MongoInsertRepoName
+  MongoCheckRepoName(repoName) {
+    MongoDbClient.connect(this.url, (err, clientDb) => {
+      const db = clientDb.db('CommitPerHour');
+      const query = { repoUser: repoName };
+      let response = '';
+      db.collection('RepoName').find(query).toArray((error, result) => {
+        if (error) throw error;
+        if (result.length) {
+          response = result[0].repoUser;
+        }
+        this.MongoInsertRepoName(repoName, response);
+      });
+      assert.equal(null, err);
+      clientDb.close();
+    });
+  }
 }
 
 module.exports = MongoDb;

@@ -30,11 +30,13 @@ function fillDatabase(username, repos, numPage = 1) {
 }
 
 function throttleToDo(username, repos) {
-  if (!clientMongoDb.MongoCheckRepoName(`${username}.${repos}`)) {
-    console.error('connard2');
-  }
+  const temp = clientMongoDb.MongoCheckRepoName(`${username}.${repos}`); /* .then(trueOrFalse => {
+  //  console.error(trueOrFalse);
+  // }); */
+  // console.error(temp.then(() => { console.error('cc'); }));
   // const throttled = throttle(fillDatabase, 12);
   // throttled(username, repos, numNextPage);
+  // clientMongoDb.MongoExtractAllDate();
 }
 
 function worker() {

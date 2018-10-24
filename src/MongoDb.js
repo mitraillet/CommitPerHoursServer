@@ -24,12 +24,13 @@ class MongoDb {
       MongoDbClient.connect(this.url, (err, clientDb) => {
         const db = clientDb.db('CommitPerHour');
         const query = { repoUser: repoName };
-        console.error('merde');
         db.collection('RepoName').insertOne(query);
         assert.equal(null, err);
         clientDb.close();
+        return true;
       });
     }
+    return false;
   }
 
   // Function check if repoName already be had or not to the DB and call MongoInsertRepoName
@@ -38,13 +39,29 @@ class MongoDb {
       const db = clientDb.db('CommitPerHour');
       const query = { repoUser: repoName };
       let response = '';
-      db.collection('RepoName').find(query).toArray((error, result) => {
-        if (error) throw error;
-        if (result.length) {
-          response = result[0].repoUser;
+      const retour = db.collection('RepoName').findOne(query).then(result => {
+        if (result) {
+          response = result.repoUser;
+          console.error(response);
         }
-        this.MongoInsertRepoName(repoName, response);
-      });
+        return this.MongoInsertRepoName(repoName, response);
+      }).then(func => { console.error(func); return func; })
+        .catch(error => console.error(error));
+      assert.equal(null, err);
+      clientDb.close();
+      console.error(retour);
+      return retour;
+    });
+  }
+
+  MongoExtractAllDate() {
+    MongoDbClient.connect(this.url, (err, clientDb) => {
+      const db = clientDb.db('CommitPerHour');
+      db.collection('Data').find({ date: '2018-06-11T19:53:21Z' }).toArray((error, results) => { console.error(error); console.error(results); });
+        /* .find().then(result => {
+          if (result) {
+          console.error(result);
+        } */
       assert.equal(null, err);
       clientDb.close();
     });

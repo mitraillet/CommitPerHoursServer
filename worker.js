@@ -3,12 +3,11 @@ require('dotenv/config');
 // npm i lodash.throttle
 const throttle = require('lodash.throttle');
 
-const MongoDb = require('./src/MongoDb');
 const Github = require('./src/Github');
 const utils = require('./src/utils');
+const utilsMongoDb = require('./src/utilsMongoDb');
 
 const clientGit = new Github({ token: process.env.OAUTH_TOKEN });
-const clientMongoDb = new MongoDb(process.env.urlMongoDb);
 
 let numNextPage = 1;
 
@@ -17,30 +16,51 @@ function setNumNextPage(num) {
 }
 
 function fillDatabase(username, repos, numPage = 1) {
-  clientGit.commit(username, repos, numPage)
+  const db = utilsMongoDb.getDb();
+  return clientGit.commit(username, repos, numPage)
     .then(({ date, nextPage }) => {
       setNumNextPage(nextPage);
       return utils.getReposCommitDate(date);
     })
-    .then(dates => clientMongoDb.MongoInsertDate(dates))
-    .then(() => {
-      if (numNextPage) setTimeout(() => { fillDatabase(username, repos, numNextPage); }, 12);
-    })
-    .catch(err => console.error(err));
+    .then(dates => db.db('CommitPerHour').collection('Data').insertMany(dates)
+      .then(() => {
+        if (numNextPage) setTimeout(() => { fillDatabase(username, repos, numNextPage); }, 12);
+      })
+      .catch(err => console.error(err)));
+}
+
+function MongoCheckRepoName(repoName) {
+  const db = utilsMongoDb.getDb();
+  const query = { repoUser: repoName };
+  let response = '';
+  return db.db('CommitPerHour').collection('RepoName').findOne(query).then(result => {
+    if (result) {
+      response = result.repoUser;
+    }
+    if (repoName !== response) {
+      db.db('CommitPerHour').collection('RepoName').insertOne(query);
+      return true;
+    }
+    return false;
+  });
 }
 
 function throttleToDo(username, repos) {
-  const temp = clientMongoDb.MongoCheckRepoName(`${username}.${repos}`); /* .then(trueOrFalse => {
-  //  console.error(trueOrFalse);
-  // }); */
-  // console.error(temp.then(() => { console.error('cc'); }));
-  // const throttled = throttle(fillDatabase, 12);
-  // throttled(username, repos, numNextPage);
-  // clientMongoDb.MongoExtractAllDate();
+  utilsMongoDb.connectToServer((error) => {
+    if (error) throw error;
+    const db = utilsMongoDb.getDb();
+    MongoCheckRepoName(`${username}.${repos}`).then(trueOrFalse => {
+      if (trueOrFalse) {
+        fillDatabase(username, repos, numNextPage).then(() => db.close());
+      } else {
+        db.close();
+      }
+    });
+  });
 }
 
 function worker() {
-  throttleToDo('AdrienNini', 'ProjetAdmin');
+  throttleToDo('torvalds', 'linux');
   // throttleToDo('gcc-mirror', 'gcc');
 }
 

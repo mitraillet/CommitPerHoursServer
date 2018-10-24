@@ -2,7 +2,6 @@
 const MongoDbClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
-
 class MongoDb {
   constructor(url) {
     this.url = url;
@@ -57,11 +56,7 @@ class MongoDb {
   MongoExtractAllDate() {
     MongoDbClient.connect(this.url, (err, clientDb) => {
       const db = clientDb.db('CommitPerHour');
-      db.collection('Data').find({ date: '2018-06-11T19:53:21Z' }).toArray((error, results) => { console.error(error); console.error(results); });
-        /* .find().then(result => {
-          if (result) {
-          console.error(result);
-        } */
+      db.collection('Data').find({}).toArray((error, results) => { console.error(error); console.error(results); });
       assert.equal(null, err);
       clientDb.close();
     });

@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const Github = require('./src/Github');
 const utils = require('./src/utils');
+const utilsMongoDb = require('./src/utilsMongoDb');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,6 +19,19 @@ app.get('/repos/:username/:repos/commits', (req, res, next) => {
     .then(dates => res.send(dates))
     .catch(next);
 });
+
+app.get('/dates', (req, res, next) => {
+  utilsMongoDb.connectToServer((error) => {
+    if (error) throw error;
+    const db = utilsMongoDb.getDb();
+    db.db('CommitPerHour').collection('Data').find({}).toArray((err, result) => {
+      if (err) throw err;
+      res.send(result);
+      db.close();
+    });
+  });
+});
+
 
 // Forward 404 to error handler
 app.use((req, res, next) => {

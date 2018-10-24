@@ -20,17 +20,16 @@ class MongoDb {
 
   // Function check if repoName and response is the same and if not add it to db
   MongoInsertRepoName(repoName, response) {
-    MongoDbClient.connect(this.url, (err, clientDb) => {
-      const db = clientDb.db('CommitPerHour');
-      const query = { repoUser: repoName };
-      if (repoName !== response) {
+    if (repoName !== response) {
+      MongoDbClient.connect(this.url, (err, clientDb) => {
+        const db = clientDb.db('CommitPerHour');
+        const query = { repoUser: repoName };
         console.error('merde');
         db.collection('RepoName').insertOne(query);
         assert.equal(null, err);
-      }
-      assert.equal(null, err);
-      clientDb.close();
-    });
+        clientDb.close();
+      });
+    }
   }
 
   // Function check if repoName already be had or not to the DB and call MongoInsertRepoName

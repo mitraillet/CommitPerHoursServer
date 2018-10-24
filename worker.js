@@ -28,7 +28,7 @@ function fillDatabase(username, repos, numPage = 1) {
 
 function throttleToDo(username, repos) {
   if (clientMongoDb.MongoInsertRepoName(`${username}.${repos}`)) {
-    _.throttle(fillDatabase(username, repos, numNextPage));
+    fillDatabase(username, repos, numNextPage);
   }
 }
 

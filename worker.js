@@ -28,13 +28,14 @@ function fillDatabase(username, repos, numPage = 1) {
 
 function throttleToDo(username, repos) {
 // if (clientMongoDb.MongoInsertRepoName(`${username}.${repos}`)) {
-  fillDatabase(username, repos, numNextPage);
+  const throttled = _.throttle(fillDatabase(username, repos, numNextPage), 12);
+  return throttled;
 // }
 }
 
 function worker() {
-  throttleToDo('torvalds', 'linux');
-  throttleToDo('gcc-mirror', 'gcc');
+  while (numNextPage) throttleToDo(' AdrienNini', 'ProjetAdmin');
+  // throttleToDo('gcc-mirror', 'gcc');
 }
 
 worker();

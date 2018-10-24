@@ -34,6 +34,7 @@ function throttleToDo(username, repos) {
 
 function worker() {
   throttleToDo('torvalds', 'linux');
+  throttleToDo('gcc-mirror', 'gcc');
 }
 
 module.exports = worker;

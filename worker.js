@@ -27,9 +27,9 @@ function fillDatabase(username, repos, numPage = 1) {
 }
 
 function throttleToDo(username, repos) {
-  if (clientMongoDb.MongoInsertRepoName(`${username}.${repos}`)) {
+ // if (clientMongoDb.MongoInsertRepoName(`${username}.${repos}`)) {
     fillDatabase(username, repos, numNextPage);
-  }
+ // }
 }
 
 function worker() {

@@ -51,12 +51,14 @@ function throttleToDo(username, repos) {
     const db = utilsMongoDb.getDb();
     MongoCheckRepoName(`${username}.${repos}`).then(trueOrFalse => {
       if (trueOrFalse) {
-        fillDatabase(username, repos, numNextPage).then(() => db.close());
+        fillDatabase(username, repos, numNextPage);
       } else {
         db.close();
       }
     });
   });
+  // console.error(temp.then(() => { console.error('cc'); }));
+  // const throttled = throttle(fillDatabase, 12);
 }
 
 function worker() {

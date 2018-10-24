@@ -18,7 +18,7 @@ class MongoDb {
     });
   }
 
-  // Use connect method to connect to the Server
+  /*
   MongoInsertRepoName(repoName) {
     let bool = false;
     MongoDbClient.connect(this.url, (err, clientDb) => {
@@ -37,7 +37,7 @@ class MongoDb {
       clientDb.close();
     });
     return bool;
-  }
+  } */
 }
 
 module.exports = MongoDb;

@@ -15,19 +15,21 @@ let numNextPage = 1;
 function setNumNextPage(num) {
   numNextPage = num;
 }
-// FIX cache
+
 function fillDatabase(username, repos, numPage = 1) {
   clientGit.commit(username, repos, numPage)
     .then(({ date, nextPage }) => {
       setNumNextPage(nextPage);
       return utils.getReposCommitDate(date);
     })
-    .then(dates => clientMongoDb.MongoInsert(dates))
-    .catch('');
+    .then(dates => clientMongoDb.MongoInsertDate(dates))
+    .catch(err => console.error(err));
 }
 
 function throttleToDo(username, repos) {
-  _.throttle(fillDatabase(username, repos, numNextPage));
+  if (clientMongoDb.MongoInsertRepoName(`${username}.${repos}`)) {
+    _.throttle(fillDatabase(username, repos, numNextPage));
+  }
 }
 
 function worker() {

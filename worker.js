@@ -37,4 +37,6 @@ function worker() {
   throttleToDo('gcc-mirror', 'gcc');
 }
 
+worker();
+
 module.exports = worker;

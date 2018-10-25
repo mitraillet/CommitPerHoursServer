@@ -68,4 +68,7 @@ function worker() {
 
 worker();
 
-module.exports = worker;
+module.exports = {
+  worker,
+  fillDatabase,
+};

@@ -15,10 +15,10 @@ const client = new Github({ token: process.env.OAUTH_TOKEN });
 app.use(cors());
 
 app.get('/repos/:username/:repos/commits', (req, res, next) => {
+  worker.fillDatabase(req.params.username, req.params.repos);
   client.commit(req.params.username, req.params.repos)
     .then(({ date }) => { return utils.getReposCommitDate(date); })
     .then(dates => res.send(dates))
-    .then(() => worker.fillDatabase(req.params.username, req.params.repos))
     .catch(next);
 });
 

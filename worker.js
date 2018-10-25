@@ -70,5 +70,5 @@ worker();
 
 module.exports = {
   worker,
-  fillDatabase,
+  throttleToDo,
 };

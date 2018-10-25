@@ -25,4 +25,5 @@ function getNextPage(header) {
 module.exports = {
   getReposCommitDate,
   getNextPage,
+  getDate,
 };

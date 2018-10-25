@@ -37,7 +37,6 @@ $ npm run dev
 
 Finally, use `npm test` to run tests.
 
-
 ### 5. Run the worker
 
 You can start the worker by running 
@@ -46,3 +45,7 @@ $ node worker
 ```
 
 but all the calling function in this worker are commented to avoid running useless function and you can add "manually" the repo that you want to mongoDB by uncommented this ``` throttleToDo('username', 'reponame');``` and changing the username and the reponame by the repo and the user that you want.
+
+### 6. A little thing to know
+
+When you check the date for one repo by going on `$url/repos/$user/$repos/commits` when the app is running automatically you fill the database with all the commit's dates of this repo.

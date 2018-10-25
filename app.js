@@ -14,6 +14,7 @@ const client = new Github({ token: process.env.OAUTH_TOKEN });
 // Enable CORS for the client app
 app.use(cors());
 
+// Send the last hundred date of commits from the repo to the page and add all the dates to the databases
 app.get('/repos/:username/:repos/commits', (req, res, next) => {
   client.commit(req.params.username, req.params.repos)
     .then(({ date }) => { return utils.getReposCommitDate(date); })
@@ -22,6 +23,7 @@ app.get('/repos/:username/:repos/commits', (req, res, next) => {
     .catch(next);
 });
 
+// Send all the dates from the database to the page
 app.get('/dates', (req, res, next) => {
   utilsMongoDb.connectToServer((error) => {
     if (error) next(error);

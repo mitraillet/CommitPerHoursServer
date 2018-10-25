@@ -18,7 +18,7 @@ app.get('/repos/:username/:repos/commits', (req, res, next) => {
   client.commit(req.params.username, req.params.repos)
     .then(({ date }) => { return utils.getReposCommitDate(date); })
     .then(dates => res.send(dates))
-    .then(worker.fillDatabase(req.params.username, req.params.repos))
+    .then(() => worker.fillDatabase(req.params.username, req.params.repos))
     .catch(next);
 });
 

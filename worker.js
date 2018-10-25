@@ -1,7 +1,5 @@
 
 require('dotenv/config');
-// npm i lodash.throttle
-const throttle = require('lodash.throttle');
 
 const Github = require('./src/Github');
 const utils = require('./src/utils');
@@ -15,6 +13,7 @@ function setNumNextPage(num) {
   numNextPage = num;
 }
 
+// Fill the databases with new data
 function fillDatabase(username, repos, numPage = 1) {
   const db = utilsMongoDb.getDb();
   return clientGit.commit(username, repos, numPage)
@@ -29,6 +28,7 @@ function fillDatabase(username, repos, numPage = 1) {
       .catch(err => console.error(err)));
 }
 
+// Check if the data was already in databases if not call filldatabase
 function MongoCheckRepoName(repoName) {
   const db = utilsMongoDb.getDb();
   const query = { repoUser: repoName };
@@ -45,24 +45,24 @@ function MongoCheckRepoName(repoName) {
   });
 }
 
+// Function to temporise worker
 function throttleToDo(username, repos) {
   utilsMongoDb.connectToServer((error) => {
     if (error) throw error;
     const db = utilsMongoDb.getDb();
     MongoCheckRepoName(`${username}.${repos}`).then(trueOrFalse => {
       if (trueOrFalse) {
-        fillDatabase(username, repos, numNextPage).then(() => db.close());
+        fillDatabase(username, repos, numNextPage);
       } else {
         db.close();
       }
     });
   });
-  // console.error(temp.then(() => { console.error('cc'); }));
-  // const throttled = throttle(fillDatabase, 12);
 }
 
+// function execute a the beginning of the script
 function worker() {
-  // throttleToDo('torvalds', 'linux');
+  throttleToDo('torvalds', 'linux');
   // throttleToDo('gcc-mirror', 'gcc');
   // throttleToDo('mitraillet', 'CommitPerHoursServer');
 }

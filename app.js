@@ -22,7 +22,7 @@ app.get('/repos/:username/:repos/commits', (req, res, next) => {
 
 app.get('/dates', (req, res, next) => {
   utilsMongoDb.connectToServer((error) => {
-    if (error) throw error;
+    if (error) next(error);
     const db = utilsMongoDb.getDb();
     db.db('CommitPerHour').collection('Data').find({}).toArray((err, result) => {
       if (err) throw err;

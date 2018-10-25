@@ -25,7 +25,7 @@ class Github {
     const url = `${this.baseUrl}${path}`;
     const options = {
       ...opts,
-      header: {
+      headers: {
         Accept: 'application/vnd.github.v3+json',
         Authorization: `token ${this.token}`,
       },

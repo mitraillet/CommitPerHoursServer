@@ -15,6 +15,7 @@ function getReposCommitDate(commits) {
   return dates;
 }
 
+// function to got the next page by the header
 function getNextPage(header) {
   const headerLink = header.headers.get('Link');
   const numNextPage = parse(headerLink).next.page;

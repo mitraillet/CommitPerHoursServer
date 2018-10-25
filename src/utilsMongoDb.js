@@ -1,18 +1,18 @@
 require('dotenv/config');
 const MongoDbClient = require('mongodb').MongoClient;
 
-let _db;
+let constDb;
 
 module.exports = {
 
   connectToServer: (callback) => {
     MongoDbClient.connect(process.env.urlMongoDb, (err, db) => {
-      _db = db;
+      constDb = db;
       return callback(err);
     });
   },
 
   getDb: () => {
-    return _db;
+    return constDb;
   },
 };

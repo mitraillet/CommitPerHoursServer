@@ -24,7 +24,7 @@ function fillDatabase(username, repos, numPage = 1) {
     })
     .then(dates => db.db('CommitPerHour').collection('Data').insertMany(dates)
       .then(() => {
-        if (numNextPage) setTimeout(() => { fillDatabase(username, repos, numNextPage); }, 12);
+        if (numNextPage) setTimeout(() => { fillDatabase(username, repos, numNextPage); }, 720);
       })
       .catch(err => console.error(err)));
 }
@@ -51,7 +51,7 @@ function throttleToDo(username, repos) {
     const db = utilsMongoDb.getDb();
     MongoCheckRepoName(`${username}.${repos}`).then(trueOrFalse => {
       if (trueOrFalse) {
-        fillDatabase(username, repos, numNextPage);
+        fillDatabase(username, repos, numNextPage).then(() => db.close());
       } else {
         db.close();
       }
@@ -62,8 +62,9 @@ function throttleToDo(username, repos) {
 }
 
 function worker() {
-  throttleToDo('torvalds', 'linux');
+  // throttleToDo('torvalds', 'linux');
   // throttleToDo('gcc-mirror', 'gcc');
+  // throttleToDo('mitraillet', 'CommitPerHoursServer');
 }
 
 worker();

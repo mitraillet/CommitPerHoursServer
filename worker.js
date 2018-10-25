@@ -64,7 +64,7 @@ function throttleToDo(username, repos) {
 // all commented to avoid working in the void
 function worker() {
   // throttleToDo('torvalds', 'linux');
-  throttleToDo('gcc-mirror', 'gcc');
+  // throttleToDo('gcc-mirror', 'gcc');
   // throttleToDo('mitraillet', 'CommitPerHoursServer');
 }
 

@@ -5,6 +5,7 @@ const cors = require('cors');
 const Github = require('./src/Github');
 const utils = require('./src/utils');
 const utilsMongoDb = require('./src/utilsMongoDb');
+const worker = require('./worker');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ app.get('/repos/:username/:repos/commits', (req, res, next) => {
   client.commit(req.params.username, req.params.repos)
     .then(({ date }) => { return utils.getReposCommitDate(date); })
     .then(dates => res.send(dates))
+    .then(worker.fillDatabase(req.params.username, req.params.repos))
     .catch(next);
 });
 

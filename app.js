@@ -36,6 +36,18 @@ app.get('/dates', (req, res, next) => {
   });
 });
 
+// Send all the repo already in the database to the page
+app.get('/repoAlreadyAdd', (req, res, next) => {
+  utilsMongoDb.connectToServer((error) => {
+    if (error) next(error);
+    const db = utilsMongoDb.getDb();
+    db.db('CommitPerHour').collection('RepoName').find({}).toArray((err, result) => {
+      if (err) throw err;
+      res.send(result);
+      db.close();
+    });
+  });
+});
 
 // Forward 404 to error handler
 app.use((req, res, next) => {

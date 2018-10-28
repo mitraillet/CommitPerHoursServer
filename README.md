@@ -1,5 +1,4 @@
-# ga-server
-Github Analytics server
+# Commit Per Hours Server
 
 ## Running the app
 

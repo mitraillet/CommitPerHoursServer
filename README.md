@@ -58,4 +58,4 @@ This will return all the date in the database : https://commitperhoursserver.her
 
 This will return all the repo who had already add into the database : https://commitperhoursserver.herokuapp.com/repoAlreadyAdd
 
-This will return the last hundred dates of the repo you want to check and fill the database with all the commit's date : https://commitperhoursserver.herokuapp.com/repos/$user/$repos/commits (you need to change the $user and the $repo by the uer and the repo you want to see)
+This will return the last hundred dates of the repo you want to check and fill the database with all the commit's date : https://commitperhoursserver.herokuapp.com/repos/$user/$repos/commits (you need to change the $user and the $repo by the user and the repo you want to see)

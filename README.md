@@ -48,3 +48,14 @@ but all the calling function in this worker are commented to avoid running usele
 ### 6. A little thing to know
 
 When you check the date for one repo by going on `$url/repos/$user/$repos/commits` when the app is running automatically you fill the database with all the commit's dates of this repo.
+
+
+## Server up
+
+You can find here a live of this server by going on :
+
+This will return all the date in the database : https://commitperhoursserver.herokuapp.com/dates
+
+This will return all the repo who had already add into the database : https://commitperhoursserver.herokuapp.com/repoAlreadyAdd
+
+This will return the last hundred dates of the repo you want to check and fill the database with all the commit's date : https://commitperhoursserver.herokuapp.com/repos/$user/$repos/commits (you need to change the $user and the $repo by the uer and the repo you want to see)

@@ -23,7 +23,7 @@ function fillDatabase(username, repos, numPage = 1) {
     })
     .then(dates => db.db('CommitPerHour').collection('Data').insertMany(dates)
       .then(() => {
-        if (numNextPage) setTimeout(() => { fillDatabase(username, repos, numNextPage); }, 720);
+        if (numNextPage) setTimeout(() => { fillDatabase(username, repos, numNextPage); }, 730);
       })
       .catch(err => console.error(err)));
 }
